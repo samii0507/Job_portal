@@ -4,12 +4,13 @@ from .models import Company
 from users.models import User
 from .form import UpdateCompanyForm
 
-
+#update company details
 def update_company(request):
-    company =Company.objects.get(user=request.user)
-    if request.method == 'POST':
-        form = UpdateCompanyForm(request.POST, instance=company)
-        if form.is_valid():
+    if request.user.is_recruiter:
+        company =Company.objects.get(user=request.user)
+        if request.method == 'POST':
+          form = UpdateCompanyForm(request.POST, instance=company)
+          if form.is_valid():
             var = form.save(commit=False)
             user = User.objects.get(id=request.user)
             user.has_company = True
@@ -17,15 +18,17 @@ def update_company(request):
             user.save()
             messages.info(request,'Your company is active now.You can start creating job ads')
             return redirect('dashboard')
-        else:
+          else:
             messages.warning(request,'Something went wrong')
-    else:
-        form = UpdateCompanyForm(instance=company)
-        context = {
+        else:
+         form = UpdateCompanyForm(instance=company)
+         context = {
             'form':form
-        }
-        return render(request,'company/update_company.html',context)
-
+         }
+         return render(request,'company/update_company.html',context)
+    else:
+        messages.warning(request,'You are not allowed to access this page')
+        return redirect('dashboard')
 #view company details
  
 def company_details(request,pk): 
