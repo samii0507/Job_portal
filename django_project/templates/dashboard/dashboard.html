@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if request.user.is_applicant %}
+{% if not request.user.has_resume %}
+<div class="alert alert-danger" role="alert">
+    <b>You are seeing this because you have not created any resume. Create one from <a href="{% url 'update-resume' %}">here</a></b>
+</div>
+{% endif %}
+
+<section>
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Welcome to Django Jobs</h1>
+            <p class="col-md-8 fs-4">Applicant Dashboard</p>
+        </div>
+        {% if request.user.has_resume %}
+        <div class="alert alert-info" role="alert">        
+            <b>To delete your resume, click <a href="{% url 'delete-resume' %}">here</a></b>
+        </div> 
+        {% endif %}
+    </div>
+</section>
+{% elif request.user.is_recruiter %}
+{% if not request.user.has_company %}
+<div class="alert alert-danger" role="alert">
+    <b>You are seeing this because you have not created any company. Create one from <a href="{% url 'update-company'%}">here</a></b>
+</div>
+
+{% endif %}
+<section>
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Welcome to Django Jobs</h1>
+            <p class="col-md-8 fs-4">Recuiter Dashboard</p>
+        </div> 
+        {% if request.user.has_company %}
+        <div class="alert alert-info" role="alert">        
+            <b>To delete your company, click <a href="{% url 'delete-company' %}">here</a></b>
+        </div> 
+        {% endif %}
+    </div>
+    
+</section>
+{% endif %}
+
+{% endblock content %}
