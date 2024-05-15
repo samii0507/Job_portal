@@ -47,7 +47,7 @@ def register_recruiter(request):
         context = {'form': form}
         return render(request, 'users/register_recruiter.html', context)
 
-
+#login user
 def login_user(request):
     if request.method == 'POST':
         email = request.POST('email')
@@ -55,10 +55,7 @@ def login_user(request):
         user = authenticate(request, email=email, password=password)
         if user is not None and user.is_active:
             login(request, user)
-            if user.is_applicant:
-                return redirect('applicant_dashboard')
-            elif user.is_recruiter:
-                return redirect('recruiter_dashboard')
+            return redirect('dashboard')
         else:
             messages.warning(request, 'Something Went wrong')
             return redirect('login')

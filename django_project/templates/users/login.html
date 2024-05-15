@@ -1,0 +1,24 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+
+<form class="p-4 p-md-5 border rounded-3 bg-light" method="POST">
+    {% csrf_token %}
+    <div class="form-floating mb-3">
+        <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+        <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign In</button>
+    <hr class="my-4">
+
+    <small class="text-muted">Register as an Applicant <a href="{% url 'register-applicant' %}">Sign Up</a></small> <br>
+    <small class="text-muted">Register as a Recruiter <a href="{% url 'register-recruiter' %}">Sign Up</a></small>
+
+
+</form>
+
+{% endblock content %}
