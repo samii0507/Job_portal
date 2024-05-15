@@ -20,7 +20,7 @@ def register_applicant(request):
             return redirect('login')
         else:
             messages.error(request, 'Something went wrong')
-            return redirect('register_applicant')
+            return redirect('register-applicant')
     else:
         form = RegisterUserForm()
         context = {'form': form}
@@ -50,7 +50,7 @@ def register_recruiter(request):
 #login user
 def login_user(request):
     if request.method == 'POST':
-        email = request.POST('email')
+        email = request.POST['email']
         password = request.POST['password']
         user = authenticate(request, email=email, password=password)
         if user is not None and user.is_active:
