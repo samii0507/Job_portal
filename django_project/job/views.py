@@ -6,6 +6,7 @@ from django.contrib import messages
 
 #create a job
 def create_job(request):
+  if request.user.is_recruiter and request.user.has_company:
     if request.method == 'POST':
         form = CreateJobForm(request.POST)
         if form.is_valid():
@@ -23,7 +24,11 @@ def create_job(request):
             'form': form
         }
         return render(request, 'job/create_job.html', context)
-
+  else:
+       messages.warning(request, 'You are not authorized to view this page')
+       return redirect('dashboard')
+   
+   
 #update job
 def update_job(request,pk):
     job = Job.objects.get(pk=pk)
