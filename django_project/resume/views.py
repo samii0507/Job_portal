@@ -25,7 +25,9 @@ def update_resume(request):
                 'form':form
             }
             return render(request,'resume/update_resume.html',context)
-
+    else:
+        messages.warning(request,'You are not authorized to view this page')
+        return redirect('dashboard')
 
 def resume_details(request,pk):
     resume = Resume.objects.get(pk=pk)
