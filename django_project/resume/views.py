@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import Resume
 from users.models import User
-from .form import UpdateResumeForm
+from .forms import UpdateResumeForm
 
 def update_resume(request):
     if request.user.is_applicant:
