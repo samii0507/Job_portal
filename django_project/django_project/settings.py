@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'resume',
     'users',
     'job',
+    'website',
     'widget_tweaks'
 ]
 
