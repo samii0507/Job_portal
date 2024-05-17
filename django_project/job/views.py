@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Job
+from .models import Job,ApplyJob
 from .form import CreateJobForm,UpdateJobForm
 from django.contrib import messages
 
@@ -54,3 +54,13 @@ def manage_job(request):
         'jobs': jobs
     }
     return render(request, 'job/manage_job.html', context)
+
+def apply_to_job(request,pk):
+    job = Job.objects.get(pk=pk)
+    ApplyJob.objects.create(
+        user=request.user,
+        job=job,
+        status='Pending'
+        )
+    messages.info(request, 'Applied to job successfully')
+    return redirect('dashboard')
