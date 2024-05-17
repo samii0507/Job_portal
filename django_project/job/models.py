@@ -10,7 +10,8 @@ class Job(models.Model):
     salary =models.PositiveIntegerField(default=35000)
     requirements = models.TextField()
     ideal_candidate = models.TextField()
-    
+    is_available = models.BooleanField(default=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.title
