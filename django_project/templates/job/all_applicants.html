@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card mx-auto" style="width: 76rem;">
+    <!-- <img src="..." class="card-img-top" alt="..."> -->
+    <div class="card-body">
+        <h5 class="card-title mb-3">All Applicants for {{job.title}} Position</h5>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Surname</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Job Position/Title</th>
+                    <th scope="col">Application Date</th>
+                    <th scope="col">Resume</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for applied_job in applied_jobs %}
+                <tr>
+                    <td>{{applied_job.user.resume.first_name}}</td>
+                    <td>{{applied_job.user.resume.surname}}</td>
+                    <td>{{applied_job.user.resume.location}}</td>
+                    <td>{{applied_job.user.resume.title}}</td>
+                    <td>{{applied_job.timestamp}}</td>
+                    {% if applied_job.user.resume and applied_job.user.resume.upload_resume.url %}
+                    <td><a target="_blank" href="{{applicant.user.resume.upload_resume.url}}"><small>Download Resume</small></a></td>
+                    {% else %}
+                    <td>Resume not uploaded</td>
+                    {% endif %}
+                    <td>{{applied_job.status}}</td>
+                    {% if not applied_job.job.is_available %}
+                        <td>Job is not active</td>
+                    {% elif applied_job.status == 'Pending' %}
+                        <td><a href="{% url 'accept-job' applied_job.pk %}"><span class="badge bg-success">Accept</span></a>
+                            <a href="{% url 'reject-job' applied_job.pk %}"><span class="badge bg-danger">Reject</span></a></td>
+                    {% endif %}
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+            card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a> -->
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -56,11 +56,29 @@ def manage_job(request):
     return render(request, 'job/manage_job.html', context)
 
 def apply_to_job(request,pk):
-    job = Job.objects.get(pk=pk)
-    ApplyJob.objects.create(
-        user=request.user,
-        job=job,
-        status='Pending'
+    if request.user.is_authenticated and request.user.is_applicant:
+        job = Job.objects.get(pk=pk)
+        if ApplyJob.objects.filter(user=request.user, job=job).exists():
+            messages.warning(request, 'You have already applied to this job')
+            return redirect('dashboard')
+        else:
+            ApplyJob.objects.create(
+             user=request.user,
+             job=job,
+             status='Pending'
         )
-    messages.info(request, 'Applied to job successfully')
-    return redirect('dashboard')
+        messages.info(request, 'Applied to job successfully')
+        return redirect('dashboard')
+        
+    else:
+        messages.info(request, 'You need to login to apply to job')
+        return redirect('login')   
+    
+def all_applicants(request,pk):
+    job = Job.objects.get(pk=pk)
+    applicants = job.applujob_set.all()
+    context = {
+        'job': job,
+        'applicants': applicants
+    }
+    return render(request, 'job/all_applicants.html', context)
