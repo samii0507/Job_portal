@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from job.models import Job ,ApplyJob
+from .filter import Jobfilter
 
 def home(request):
     return render(request, 'website/home.html')
 
 def job_listing(request):
-    jobs = Job.objects.filter(is_active=True).order_by('-timestamp')
+    filter = Jobfilter(request.GET, queryset=Job.objects.filter(is_active=True).order_by('-timestamp'))
+    # jobs = Job.objects.filter(is_active=True).order_by('-timestamp')
     context = {
-        'jobs': jobs
+        'filter': filter
     }   
     return render(request, 'website/job_listing.html', context)
     
