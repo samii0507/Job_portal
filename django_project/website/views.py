@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from job.models import Job ,ApplyJob
-from .filter import Jobfilter
+from .filter import Jobfilter 
 
 def home(request):
     return render(request, 'website/home.html')
